@@ -1,0 +1,91 @@
+#include <iostream>
+#include <iomanip> // untuk mengatur format tampilan harga
+#include <vector>
+using namespace std;
+
+struct ProdukElektronik {
+	string nama;
+	float harga;
+	int jumlah;
+};
+
+void tampilkanMenu() {
+	cout << "\nMenu Produk Elektronik:\n";
+	cout << "1. Smartphone - Rp 3000000\n";
+	cout << "2. Laptop - Rp 7500000\n";
+	cout << "3. Tablet - Rp 4500000\n";
+}
+
+float hitungDiskon(float totalHarga) {
+	if (totalHarga > 10000000) {
+		return totalHarga * 0.15; // Diskon 15% jiika total lebih dari Rp 10,000,000
+	}
+	return 0;
+}
+
+int main() {
+	vector<ProdukElektronik> pesanan;
+	int pilihan, jumlah;
+	float totalHarga = 0;
+	char lagi;
+	
+	cout << "Selamat datang di Aplikasi Pembelian Produk Elektronik!\n";
+	
+	do {
+		tampilkanMenu();
+		cout << "Pilih produk (1-4): "; //proyek
+		cin >> pilihan;
+		
+		ProdukElektronik produk;
+		switch (pilihan) {
+			case 1:
+				produk = {"Smartphone", 3000000, 0};
+				break;
+			case 2:
+				produk = {"Laptop", 7500000, 0};
+				break;
+			case 3:
+				produk = {"Tablet", 4500000, 0};
+				break;
+			case 4:
+				produk = {"Headphone", 1500000, 0};
+				break;
+			default:
+				cout << "Pilihan tidak valid.\n";
+				continue;
+		}
+		
+		cout << "Masukkan jumlah yang ingin dibeli: ";
+		cin >> jumlah;
+		produk.jumlah = jumlah;
+		
+		float subtotal = produk.harga * jumlah;
+		totalHarga += subtotal;
+		pesanan.push_back(produk);
+		
+		cout << "Subtotal untuk " << produk.nama << ": Rp " << subtotal << endl;
+		
+		cout << "Ingin membeli produk lain? (y/n): ";
+		cin >> lagi;
+	
+	} while (lagi == 'y' || lagi == 'Y');
+	
+	float diskon = hitungDiskon(totalHarga); //projek
+	float totalSetelahDiskon = totalHarga - diskon;
+	
+	cout << "\n--- Daftar Pesanan Anda ---\n";
+	cout << left << setw(15) << "Produk" << setw(10) << "Harga" << setw(10) << "Jumlah" << setw(15) << "Subtotal" << endl;
+	for (const ProdukElektronik& p : pesanan) {
+		cout << left << setw(15) << p.nama
+			 << "Rp " << setw(8) << p.harga
+			 << setw(10) << p.jumlah
+			 << "Rp " << setw(10) << p.harga * p.jumlah << endl;
+	}
+	
+	cout << "\nTotal Harga: Rp " << totalHarga << endl;
+	cout << "Diskon: Rp " << diskon << endl;
+	cout << "Total Setelah Diskon: Rp " << totalSetelahDiskon << endl;
+	cout << "Terima kasih telah berbelanja produk electronik!\n";
+	
+	return 0;
+}
